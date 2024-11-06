@@ -1,0 +1,27 @@
+.modal{
+    box-sizing: border-box;
+    border: 1px solid none;
+    width: 25rem;
+    height: 15rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+.hidden{
+    display: none;
+}
+.overlay{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    margin-top: -19rem;
+    background-color: rgb(175, 175, 175);
+    opacity: 50%;
+}
