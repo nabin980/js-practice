@@ -7,6 +7,12 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+// tab component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 const openModal = function (e) {
   modal.classList.remove('hidden');
@@ -55,8 +61,8 @@ document.querySelector('.btn--close-cookie').addEventListener("click", function(
 message.style.backgroundColor = "#37383d";
 message.style.width = "120%";
 
-console.log(message.style.height); // cannot get the height set by the class and other only set by us
-console.log(getComputedStyle(message).color);
+// console.log(message.style.height); // cannot get the height set by the class and other only set by us
+// console.log(getComputedStyle(message).color);
 
 message.style.height = Number.parseFloat( getComputedStyle(message).height,10) + 30 + "px";
 
@@ -125,3 +131,110 @@ document.querySelector('.nav__links').addEventListener('click',function(e){
     document.querySelector(id).scrollIntoView({behavior:'smooth'})
   }
 })
+
+// DOM transversing means walking through the dom (selecting element based on another element)
+const h1 = document.querySelector('h1');
+
+// Going down child element
+
+// console.log(h1.querySelectorAll('.highlight'))// select all child not just direct children
+
+// // for direct children only
+// console.log(h1.childNodes)
+// console.log(h1.children)
+
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orange';
+
+// Going Upward parent element
+
+// finding direct parent
+// console.log(h1.parentNode);
+// // use this
+// console.log(h1.parentElement);
+
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// h1.closest('h1').style.background = 'var(--color-primary)';
+
+// // Side wise siblings
+// console.log(h1.nextElementSibling)
+// console.log(h1.previousElementSibling);
+
+// // for all siblings
+// console.log(h1.parentElement.children);
+
+// [...h1.parentElement.children].forEach(function(el){
+//   if(el !== h1) el.style.transform ='scale(0.5)'
+// })
+
+
+
+tabsContainer.addEventListener('click', function(el){
+  const clickedButton = el.target.closest('.operations__tab');
+
+  // guard clause
+  if(!clickedButton) return;
+
+  //Remove activer
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+ tabsContent.forEach(tc => tc.classList.remove('operations__content--active'));
+
+// Add Active and display
+  clickedButton.classList.add('operations__tab--active');
+  document.querySelector(`.operations__content--${clickedButton.dataset.tab}`).classList.add('operations__content--active')
+})
+
+// mouseenter does not bubble cannot use deligation so use mouseover instead
+// Menu fade animation
+
+const handelOver = function(e){
+  if(e.target.classList.contains('nav__link')){
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(el => {
+      if(el !== link){
+        el.style.opacity = this;
+      }
+      logo.style.opacity = this;
+    })
+  }
+}
+
+
+/// padding "arguments"  into the handler
+nav.addEventListener('mouseover',handelOver.bind(0.5));
+nav.addEventListener('mouseout',handelOver.bind(1));
+
+
+// Sticky navigation : Intersection Observer Api
+
+// const obsCallback = function(entries, observer){
+//   entries.forEach(entry =>{
+//     console.log(entry)
+//   })
+
+// }
+
+// const obsOptions = {
+//   root: null,
+//   threshold:0.1,
+// };
+
+// const observer = new IntersectionObserver(obsCallback,obsOptions);
+// observer.observe(section1);
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function(entries){
+  const [entry] = entries;
+  if(!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky')
+}
+
+const headerObserver = new IntersectionObserver(stickyNav,{
+  root:null,
+  threshold:0,
+  rootMargin:`-${navHeight}px`,
+})
+
+headerObserver.observe(header);
