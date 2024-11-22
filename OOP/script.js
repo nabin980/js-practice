@@ -73,7 +73,6 @@ DATA CAR 2: 'Mercedes' going at 95 km/h
 GOOD LUCK 😀
 */
 
-
 // const CAR = function(make,speed){
 //     this.make = make;
 //     this.speed = speed;
@@ -97,7 +96,6 @@ GOOD LUCK 😀
 
 // bmw.accelerate();
 
-
 /// Class Expression
 // const PersonCL = class{}
 
@@ -108,7 +106,7 @@ GOOD LUCK 😀
 //     this.birthYear = birthYear;
 //  }
 
- // Methods will be added to .prototype property
+// Methods will be added to .prototype property
 //  calcAge(){
 //     console.log(2037 - this.birthYear);
 //  }
@@ -121,8 +119,7 @@ GOOD LUCK 😀
 //     console.log(2037-this.birthYear)
 //  }
 
-
- // set a property that already exists
+// set a property that already exists
 //  set fullName(name){
 //     if(name.includes(' ')){
 //         this._fullName = name;
@@ -135,7 +132,7 @@ GOOD LUCK 😀
 //     return this._fullName;
 //  }
 
- // Static Methods
+// Static Methods
 //  static hey(){
 //     console.log(`Hey there 👋`);
 //  }
@@ -160,13 +157,10 @@ GOOD LUCK 😀
 // 2. Class are firest-class cizizes
 // 3. Classes are executed in strict mode
 
-
-
 // /// Getter and Setters
 // const account = {
 //     owner : 'Jonas',
 //     movments : [200,530,120,300],
-
 
 //     // GEtter
 //     get latest(){
@@ -183,7 +177,7 @@ GOOD LUCK 😀
 // account.latest = 50;
 // console.log(account.movments);
 
-// // Object.create
+// Object.create
 
 // const PersonProto = {
 //     calcAge(){
@@ -243,7 +237,6 @@ GOOD LUCK 😀
 //          this.speed = speed * 1.6;
 //     }
 
-    
 // }
 
 // const ford = new CARCl('Ford', 120);
@@ -251,7 +244,6 @@ GOOD LUCK 😀
 
 // ford.speedUs = 50;
 // // console.log(ford);
-
 
 // // Inheritance between two classes using "Constructor"
 // const Person = function (firstName,birthYear){
@@ -261,7 +253,7 @@ GOOD LUCK 😀
 
 // Person.prototype.calcAge = function(){
 //     console.log(2023 - this.birthYear);
-// } 
+// }
 
 // const Student = function(firstName,birthYear,course){
 //     Person.call(this, firstName,birthYear);
@@ -294,31 +286,188 @@ DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
 GOOD LUCK 😀
 */
 
-const CAR = function(make,speed){
-        this.make = make;
-        this.speed = speed;
-};
+// const CAR = function(make,speed){
+//         this.make = make;
+//         this.speed = speed;
+// };
+
+// const EV = function(make,speed,battery){
+//     CAR.call(this, make, speed);
+//     this.battery = battery;
+// };
+// EV.prototype = Object.create(CAR.prototype);
+
+// EV.prototype.chargeBattery = function(chargeTo){
+//   this.battery = chargeTo;
+// };
+
+// EV.prototype.accelerate= function(){
+//     this.speed +=20;
+//     this.battery --;
+//     console.log(`${this.make} going at ${this.speed} km/h, with a charge of ${this.battery}%`);
+// };
+
+// const tesla = new EV('Tesla', 140,23);
+// tesla.chargeBattery(90);
+// console.log(tesla)
+// tesla.accelerate();
+// tesla.accelerate();
+
+// Inheretance In CLass : ES6 classes
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+
+//   //  Methods will be added to .prototype property
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.firstName}`);
+//   }
+
+//   get Age() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   //  set a property that already exists
+//   set fullName(name) {
+//     if (name.includes(' ')) {
+//       this._fullName = name;
+//     } else {
+//       alert(`${name} is not full name`);
+//     }
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   //  Static Methods
+//   static hey() {
+//     console.log(`Hey there 👋`);
+//   }
+// }
+
+// class StudentCl extends PersonCl {
+//   constructor(fullName, birthYear, course) {
+//     // Always needs to happen first
+//     super(fullName, birthYear);
+//     this.course = course;
+//   }
+
+//   introduce(){
+//     console.log(`My Name is ${this.fullName} and I study ${this.course}`)
+//   }
+
+//   calcAge(){
+//     console.log(`I'm ${2037-this.birthYear} year old but i feel like ${2037-this.birthYear + 10} years old`)
+//   }
+// }
 
 
+// const martha = new StudentCl('Martha Jones', 1999, "Computer science");
+// console.log(martha)
+// martha.introduce();
+// martha.calcAge();
 
-const EV = function(make,speed,battery){
-    CAR.call(this, make, speed);
-    this.battery = battery;
-};
-EV.prototype = Object.create(CAR.prototype);
 
-EV.prototype.chargeBattery = function(chargeTo){
-  this.battery = chargeTo;
-};
+// Object.create Inheritance
 
-EV.prototype.accelerate= function(){
-    this.speed +=20;
-    this.battery --;
-    console.log(`${this.make} going at ${this.speed} km/h, with a charge of ${this.battery}%`);
-};
+// const PersonProto = {
+//     calcAge(){
+//         console.log(2037 - this.birthYear);
+//      },
 
-const tesla = new EV('Tesla', 140,23);
-tesla.chargeBattery(90);
-console.log(tesla)
-tesla.accelerate();
-tesla.accelerate();
+//      setInfo(firstname,birthYear){
+//         this.firstName= firstname;
+//         this.birthYear= birthYear;
+//      },
+// }
+
+// const steven = Object.create(PersonProto);
+
+// const StudentProto = Object.create(PersonProto);
+
+// StudentProto.init = function(firstName,birthYear,course){
+//   PersonProto.setInfo.call(this, firstName,birthYear);
+//   this.course = course;
+// }
+
+// StudentProto.introduce = function(){
+//   console.log(`My Name is ${this.firstName} and I study ${this.course}`);
+// }
+
+// const jay = Object.create(StudentProto);
+// jay.init('Jay',1234,"computer science")
+// jay.introduce();
+// jay.calcAge();
+
+// Classes Expamples with encapsulation and privacy
+
+//Public fields
+//Private fields
+
+//Public Methods
+//Private Methods
+
+// (there is also the static version)
+
+class Account {
+  // Public fields (instances not in prototype)
+  locale = navigator.language;
+  
+  // Private Fields
+  #movments = [];
+  #pin;
+
+  constructor(owner,currency,pin){
+    this.owner = owner;
+    this.currency=currency;
+    this.#pin=pin;
+
+    console.log(`Thank you for opening account, ${this.owner}`);
+  }
+
+  // Public Methods
+  diposite(val){
+    this.#movments.push(val);
+  }
+
+  getMovments(){
+    return this.#movments;
+  }
+
+  withdrawl(val){
+    this.diposite(-val);
+  }
+
+  
+
+  requestLoan(val){
+if(this.#approveLoan){
+  this.diposite(val);
+  console.log(`Loan Approved`)
+}
+  }
+
+  static helper(){
+    console.log(`I am helper function`)
+  }
+
+  // Private Methods
+  #approveLoan(val){
+    return true;
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR',1111);
+acc1.diposite(100);
+acc1.withdrawl(50);
+console.log(acc1);
+acc1.requestLoan(4000);
+
+ 
