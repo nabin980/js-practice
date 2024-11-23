@@ -435,22 +435,28 @@ class Account {
   // Public Methods
   diposite(val){
     this.#movments.push(val);
+    return this;
   }
 
   getMovments(){
     return this.#movments;
+
   }
 
   withdrawl(val){
     this.diposite(-val);
+    return this;
+
   }
 
   
 
   requestLoan(val){
-if(this.#approveLoan){
+if(this._approveLoan){
   this.diposite(val);
   console.log(`Loan Approved`)
+  return this;
+
 }
   }
 
@@ -459,15 +465,83 @@ if(this.#approveLoan){
   }
 
   // Private Methods
-  #approveLoan(val){
+  //#approveLoan(){
+  _approveLoan(val){
     return true;
   }
 }
 
 const acc1 = new Account('Jonas', 'EUR',1111);
-acc1.diposite(100);
+console.log(acc1.diposite(100))
 acc1.withdrawl(50);
 console.log(acc1);
 acc1.requestLoan(4000);
 
- 
+ acc1.withdrawl(100).diposite(200).requestLoan(4000);
+ console.log(acc1.getMovments());
+
+ // Coding Challenge #4
+
+/* 
+1. Re-create challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+2. Make the 'charge' property private;
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. They experiment with chining!
+
+DATA CAR 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+class CARCl {
+      constructor(make,speed){
+          this.make = make;
+          this.speed = speed;
+      };
+  
+    accelerate (){
+       this.speed += 10 ;
+       console.log(`${this.make} is going at ${this.speed}`);
+      }
+  
+     brake(){
+          this.speed -= 5 ;
+          console.log(`${this.make} is going at ${this.speed}`);
+          return this;
+         }
+  
+      get speedUs(){
+          return this.speed / 1.6;
+      }
+  
+      set speedUs(speed){
+           this.speed = speed * 1.6;
+      }
+  
+  }
+
+  class EVCl extends CARCl{
+
+    #charge = 0;
+
+    constructor(make,speed,charge){
+      super(make,speed);
+      this.#charge = charge;
+    }
+
+    batteryChargeTo(val){
+      this.#charge = val;
+      return this;
+    }
+
+    accelerate(){
+      this.speed += 20;
+      this.#charge --;
+      console.log(`${this.make} going at ${this.speed} km/h, with a charge of ${this.#charge}%`);
+      return this;
+
+    }
+  }
+
+  const Rivian = new EVCl('Rivian', 120 , 23);
+
+  Rivian.accelerate().brake().batteryChargeTo(90).accelerate().brake();
