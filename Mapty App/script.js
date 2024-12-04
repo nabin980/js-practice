@@ -11,51 +11,48 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
-class Workout{
+class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
 
-  constructor(coords,distance,duration){
+  constructor(coords, distance, duration) {
     this.coords = coords; // [lat,lng]
     this.distance = distance; // km
     this.duration = duration; // min
   }
 }
 
-class Running extends Workout{
-  constructor(coords,distance,duration,cadence){
-    super(coords,distance,duration);
+class Running extends Workout {
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
     this.cadence = cadence;
     this.calcPace();
-    
   }
 
-  calcPace(){
+  calcPace() {
     // min/Km
     this.pace = this.duration / this.distance;
     return this.pace;
   }
-
- 
 }
 
-class Cycling extends Workout{
-  constructor(coords,distance,duration,elevationGain){
-    super(coords,distance,duration);
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
     this.elevationGain = elevationGain;
     this.calcSpeed();
   }
 
-  calcSpeed(){
+  calcSpeed() {
     //Km/h
-    this.speed = this.distance / (this.duration/60);
+    this.speed = this.distance / (this.duration / 60);
     return this.speed;
   }
 }
 
-const run1 = new Running([39,-12],5.2,24,178);
-const cycling1 = new Cycling([39,-12],27,95,523);
-console.log(run1,cycling1);
+const run1 = new Running([39, -12], 5.2, 24, 178);
+const cycling1 = new Cycling([39, -12], 27, 95, 523);
+console.log(run1, cycling1);
 
 // Application Architecture
 class App {
@@ -106,15 +103,43 @@ class App {
   }
 
   _newWorkout(e) {
+    const validInputs = (...inputs) =>
+      inputs.every(inp => Number.isFinite(inp));
+    const allPositive = (...inputs) => inputs.every(inp => inp >0);
+
     e.preventDefault();
 
-    // Clear all inputs
-    inputCadence.value =
-      inputDistance.value =
-      inputDuration.value =
-      inputElevation.value =
-        '';
-    //display marker
+    // Get Data from form
+    const type = inputType.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
+
+    // if Workout running running,create running obj
+    if (type === 'running') {
+      const cadence = +inputCadence.value;
+      // Check if data is valid
+      if (
+        !validInputs(distance,duration,cadence) || 
+        !allPositive(distance,duration,cadence)
+        
+      )
+        return alert('input have to be positive number');
+    }
+
+    // if Workout cyling cyling,create cyling obj
+    if (type === 'cycling') {
+      const elevation = +inputElevation.value;
+      if (
+        !validInputs(distance,duration,elevation) ||
+        !allPositive(distance,duration)
+        
+      )
+        return alert('input have to be positive number');
+    }
+
+    // Add new obj to workout arr
+
+    // Render workout on map as marker
     const { lat, lng } = this.#mapEvent.latlng;
     L.marker([lat, lng])
       .addTo(this.#map)
@@ -129,6 +154,16 @@ class App {
       )
       .setPopupContent('Workout')
       .openPopup();
+
+    // Render workout on list
+
+    // Clear all inputs
+    inputCadence.value =
+      inputDistance.value =
+      inputDuration.value =
+      inputElevation.value =
+        '';
+    //display marker
   }
 }
 
